@@ -1,15 +1,17 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
-        if n == 1 or n == 7:
-            return True
-        else:
-            sum = n
-            while sum > 9:
-                str_sum = str(sum)
-                sum = 0
-                for num in str_sum:
-                    sum += int(num) ** 2
-                    print(sum)
-                if sum == 1 or sum == 7:
-                    return True
-            return False
+        seen = set()
+        
+        while n != 1 and n not in seen:
+            seen.add(n)
+            n = self.get_sum_of_squares(n)
+        
+        return n == 1
+
+    def get_sum_of_squares(self, n: int) -> int:
+        total = 0
+        while n > 0:
+            digit = n % 10
+            total += digit * digit
+            n //= 10
+        return total
